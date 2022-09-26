@@ -1,8 +1,10 @@
 import puppeteer from 'puppeteer';
 
 export default class Browser {
-  constructor() {
-    const waitUntil = process.env.WAIT_UNTIl;
+  constructor(config) {
+    this.spaUrl = config.spaUrl;
+
+    const waitUntil = config.waitUntil;
 
     switch (waitUntil) {
       case '0': {
@@ -29,7 +31,7 @@ export default class Browser {
 
   async render(url) {
     const start = Date.now();
-    const fullUrl = `${process.env.SPA_URL}${url}`;
+    const fullUrl = `${this.spaUrl}${url}`;
     const browser = await puppeteer.connect({ browserWSEndpoint: this.ws });
     const page = await browser.newPage();
 
